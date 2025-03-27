@@ -138,14 +138,18 @@ class HeadlessWP {
 	/**
 	 * Initialize OpenAPI functionality
 	 */
-	private function init_openapi() {
-		require_once HEADLESSWP_PLUGIN_DIR . 'includes/class-openapi.php';
-		
-		// Register filters
-		HeadlessWP\OpenAPI\Filters\TagsFilter::register();
-		HeadlessWP\OpenAPI\Filters\OperationsFilter::register();
-		
-		$openapi = new HeadlessWP_OpenAPI($this->options['openapi'] ?? []);
-		$openapi->init();
-	}
+    private function init_openapi() {
+        require_once HEADLESSWP_PLUGIN_DIR . 'includes/class-openapi.php';
+
+        // Explicitly include the filter class files
+        require_once HEADLESSWP_PLUGIN_DIR . 'includes/openapi/Filters/TagsFilter.php';
+        require_once HEADLESSWP_PLUGIN_DIR . 'includes/openapi/Filters/OperationsFilter.php';
+
+        // Now register the filters
+        HeadlessWP\OpenAPI\Filters\TagsFilter::register();
+        HeadlessWP\OpenAPI\Filters\OperationsFilter::register();
+
+        $openapi = new HeadlessWP_OpenAPI($this->options['openapi'] ?? []);
+        $openapi->init();
+    }
 }
